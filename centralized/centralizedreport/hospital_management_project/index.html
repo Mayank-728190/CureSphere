@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Document Upload</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen p-4">
+
+    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+        <h2 class="text-2xl font-bold mb-4 text-center">Upload Emergency Document</h2>
+        
+        <input type="file" id="file-input" class="w-full p-2 border border-gray-300 rounded mb-2">
+        <button onclick="uploadFile()" class="w-full bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+            Upload
+        </button>
+
+        <h3 class="font-bold mt-6 text-lg">Uploaded Documents</h3>
+        <table id="file-table" class="w-full mt-2 border-collapse border border-gray-300">
+            <thead>
+                <tr class="bg-gray-200">
+                    <th class="border border-gray-300 p-2">Filename</th>
+                    <th class="border border-gray-300 p-2">Uploaded On</th>
+                    <th class="border border-gray-300 p-2">Action</th>
+                </tr>
+            </thead>
+            <tbody id="file-list">
+                <!-- Files will be auto-populated here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Fetch and display uploaded files automatically
+        function loadFiles() {
+            fetch("files.php")
+                .then(response => response.json())
+                .then(files => {
+                    let fileList = document.getElementById("file-list");
+                    fileList.innerHTML = ""; // Clear previous list
+
+                    files.forEach(file => {
+                        let row = `
+                            <tr>
+                                <td class="border border-gray-300 p-2">${file.name}</td>
+                                <td class="border border-gray-300 p-2">${file.timestamp}</td>
+                                <td class="border border-gray-300 p-2">
+                                    <a href="${file.path}" target="_blank" class="text-blue-600 underline">View</a>
+                                </td>
+                            </tr>`;
+                        fileList.innerHTML += row;
+                    });
+                })
+                .catch(error => console.error("Error loading files:", error));
+        }
+
+        // Upload file and refresh list
+        function uploadFile() {
+            let fileInput = document.getElementById("file-input").files[0];
+
+            if (!fileInput) {
+                alert("Please select a file to upload.");
+                return;
+            }
+
+            let formData = new FormData();
+            formData.append("file", fileInput);
+
+            fetch("upload.php", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert(data);
+                loadFiles(); // Refresh list after upload
+            })
+            .catch(error => alert("File upload failed!"));
+        }
+
+        // Load files when the page loads
+        window.onload = loadFiles;
+    </script>
+
+</body>
+</html>

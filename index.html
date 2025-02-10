@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CureSphere</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="./public/logo.png" type="image/x-icon">
+</head>
+<body>
+  <style>
+    #scroll-container {
+      display: flex;
+      overflow: hidden; 
+      white-space: nowrap; 
+    }
+    
+    .animate-scroll {
+      animation: scroll 20s linear infinite;
+      display: inline-block; 
+      padding: 0 20px; 
+    }
+    
+    @keyframes scroll {
+      0% {
+        transform: translateX(100%);
+      }
+      100% {
+        transform: translateX(-100%);
+      }
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .animate-scroll {
+        animation-duration: 15s; 
+        padding: 0 15px; 
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .animate-scroll {
+        animation-duration: 10s; 
+        padding: 0 10px; 
+      }
+    }
+    @keyframes scaleUpDown {
+      0%, 100% {
+          transform: scale(0.85);
+      }
+      50% {
+          transform: scale(1);
+      }
+  }
+
+  .animate-image {
+      animation: scaleUpDown 5s infinite;
+  }
+  </style>
+    <!-- MAIN LANDING PAGE  -->
+    <div class="flex flex-col min-h-[100dvh] animate-gradient-x" style="background-image: url('./public/bg2.png'); background-size: cover; background-position: center;">
+      <header class="px-4 lg:px-6 h-20 flex items-center shadow-md relative">
+        <a href="index.html">
+          <img src="./public/logo.png" alt="PredictMed Logo" class="h-10 w-10 rounded-full">
+        </a>
+        <a href="index.html">
+          <h1 class="text-2xl font-bold text-[#510cfa] ml-2 ">CureSphere</h1>
+        </a>
+        <nav class="ml-auto flex items-center relative">
+          <!-- Toggle Button for Mobile -->
+          <button id="menu-toggle" class="lg:hidden text-[#1E40AF] hover:text-[#3B82F6] focus:outline-none">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6">
+              <path d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
+      
+          <!-- Desktop Menu -->
+          <div class="hidden lg:flex gap-4 sm:gap-6 items-center relative">
+            <a class="text-sm font-medium text-[#1E40AF] hover:underline underline-offset-4 hover:text-[#3B82F6] transition-colors" href="index.html">Home</a>
+            <div class="relative">
+              <button type="button" id="services-button" aria-haspopup="menu" aria-expanded="false" class="text-sm font-medium text-[#1E40AF] hover:underline underline-offset-4 hover:text-[#3B82F6] transition-colors flex items-center gap-2">
+                <span>Services</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 text-[#1E40AF] transition-transform duration-300">
+                  <path d="m6 9 6 6 6-6"></path>
+                </svg>
+              </button>
+              <div id="services-dropdown" class="absolute top-full left-0 mt-2 w-48 bg-[#510cfa] border border-[#e2e8f0] rounded-lg shadow-lg z-50 hidden">
+                <a href="reportanalyse.html" class="block px-4 py-2 text-sm text-[#FDF0FF] hover:bg-[#ffb800]">Multilingual AI-powered health assistant</a>
+              <a href="" class="block px-4 py-2 text-sm text-[#FDF0FF] hover:bg-[#ffb800]">Centralized Report System</a>
+              <a href="medreport.html" class="block px-4 py-2 text-sm text-[#FDF0FF] hover:bg-[#ffb800]">Centralized Medical Store System</a>
+              <a href="wrongmed.html" class="block px-4 py-2 text-sm text-[#FDF0FF] hover:bg-[#ffb800]">Smart Prescription Verification System </a>
+              </div>
+            </div>
+            <a class="text-sm font-medium text-[#1E40AF] hover:underline underline-offset-4 hover:text-[#3B82F6] transition-colors" href="contact.html">Contact</a>
+            <a class="inline-flex h-8 items-center justify-center rounded-full bg-[#ffb800] px-4 text-sm font-medium text-black shadow transition-colors hover:bg-[#ffb800] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50" href="https://CureSphere-2lyq.onrender.com/">Logout</a>
+          </div>
+      
+          <!-- Mobile Dropdown Menu -->
+          <div id="mobile-menu" class="lg:hidden absolute top-14 right-0 mt-2 w-48 bg-white border border-[#e2e8f0] rounded-lg shadow-lg hidden z-50">
+            <a href="index.html" class="block px-4 py-2 text-sm text-[#1E40AF] hover:bg-[#BFDBFE]">Home</a>
+            <button type="button" id="mobile-services-button" class="w-full text-left px-4 py-2 text-sm text-[#1E40AF] hover:bg-[#BFDBFE] flex items-center justify-between">
+              Services
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 text-[#1E40AF] transition-transform duration-300">
+                <path d="m6 9 6 6 6-6"></path>
+              </svg>
+            </button>
+            <div id="mobile-services-dropdown" class="hidden mt-2 bg-[#510cfa] z-50">
+              <a href="reportanalyse.html" class="block px-4 py-2 text-sm text-[#FDF0FF] hover:bg-[#ffb800]">Multilingual AI-powered health assistant</a>
+              <a href="" class="block px-4 py-2 text-sm text-[#FDF0FF] hover:bg-[#ffb800]">Centralized Report System</a>
+              <a href="medreport.html" class="block px-4 py-2 text-sm text-[#FDF0FF] hover:bg-[#ffb800]">Centralized Medical Store System</a>
+              <a href="wrongmed.html" class="block px-4 py-2 text-sm text-[#FDF0FF] hover:bg-[#ffb800]">Smart Prescription Verification System </a>
+            </div>
+            <a href="contact.html" class="block px-4 py-2 text-sm text-[#1E40AF] hover:bg-[#BFDBFE]">Contact</a>
+            <a href="https://CureSphere-2lyq.onrender.com/" class="block px-4 py-2 text-sm text-[#1E40AF] hover:bg-[#BFDBFE]">Logout</a>
+          </div>
+        </nav>
+      </header>
+      
+      
+      <main class="flex-1">
+        <section class="w-full py-6 md:py-12 lg:py-16 bg-cover bg-center" style="background-image: url('./public/bg2.png');">
+          <div class="container px-4 md:px-8 mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+            <!-- Left Image -->
+            <div class="md:w-1/2">
+              <img src="./public/landingimg.png" alt="Animated Image" class="w-full h-auto object-cover rounded-xl">
+            </div>
+            <!-- Right Text Content -->
+            <div class="md:w-1/2 text-center md:text-left">
+              <h1 class="text-4xl font-bold tracking-tighter text-[#510cfa] sm:text-5xl md:text-6xl animate-fade-in">
+                Welcome to CureSphere
+              </h1>
+              <p class="mt-3 text-lg text-[#ffb800] animate-fade-in">
+                An innovative health-tech platform harnessing the power of machine learning to empower individuals to take control of their well-being.
+              </p>
+              <div class="flex justify-center md:justify-start mt-4">
+                <a class="inline-flex h-10 items-center justify-center rounded-md bg-[#ffb800] px-6 text-sm font-medium text-black hover:bg-[#ffb800]" href="#services">
+                  Get Started
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    
+      
+    <!-- Features Section -->
+    <section class="w-full bg-gradient-to-r from-[#1E3A8A] to-[#6D28D9] text-white py-4 overflow-hidden">
+      <div id="scroll-container" class="flex justify-center space-x-8 animate-scroll">
+        <span class="font-bold animate-enter">• AI-Powered Health Assistant</span>
+        <span class="font-bold animate-enter">• Centralized System</span>
+        <span class="font-bold animate-enter">• Centralized Medical Store System</span>
+        <span class="font-bold animate-enter">• Smart Prescription Verification System</span>
+      </div>
+    </section>
+      
+   <!-- ABOUT US -->
+<!-- ABOUT US -->
+<section class="w-full py-8 md:py-16 lg:pt-20 lg:pb-12 bg-cover bg-center" style="background-image: url('./public/bgwp2.png');">
+  <div class="container mx-auto px-4 md:px-6 lg:px-8 flex flex-col lg:flex-row items-center lg:items-start justify-center lg:justify-between gap-10">
+    
+    <!-- Lottie Animation (GIF) -->
+    <div id="lottie-animation-about" class="w-full max-w-[500px] h-[300px] lg:h-[400px] overflow-hidden rounded-xl flex justify-center items-center lg:ml-[-30px]">
+      <!-- Lottie animation should be placed here -->
+    </div>
+
+    <!-- Text Content -->
+    <div class="max-w-2xl space-y-6 text-center lg:text-left">
+      <h2 class="text-4xl font-extrabold tracking-tight text-[#510cfa] sm:text-5xl md:text-6xl animate-fade-in">
+        Our Mission
+      </h2>
+      <p class="text-lg sm:text-xl text-black leading-relaxed animate-fade-in delay-100">
+        CureSphere is an innovative health-tech platform harnessing the power of machine learning to empower individuals to take control of their well-being.  
+        It offers a comprehensive suite of features designed to enhance your health journey through personalized recommendations and predictive insights.
+      </p>
+      <div class="flex justify-center lg:justify-start">
+        <a class="inline-flex h-12 items-center justify-center rounded-lg bg-[#1E40AF] px-10 text-lg font-semibold text-white shadow-lg transition-all hover:bg-[#510cfa] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#510cfa] disabled:pointer-events-none disabled:opacity-50 " 
+           href="#about">
+          Learn More
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+      <!-- TO DOWNLOAD IDEA PPT :  -->
+      <header class="w-full bg-gradient-to-r from-[#6b21a8] to-[#8b5cf6] py-6 px-4 md:px-6">
+        <div class="container mx-auto flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="text-lg font-medium text-[#fff]">To download Idea PPT of CureSphere-MAKSQUARE</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="h-5 w-5 text-[#fff]"
+            >
+              <path d="M5 12h14"></path>
+              <path d="m12 5 7 7-7 7"></path>
+            </svg>
+          </div>
+          <a href="https://drive.google.com/file/d/1xfA9MsQ9yDyQy9C-K5-4n1Q_URVbDuRr/view?usp=sharing">
+          <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 bg-gradient-to-r from-[#6b21a8] to-[#8b5cf6] text-[#fff] shadow-md hover:from-[#581c87] hover:to-[#7e22ce]">
+            Download PPT/PDF
+          </button>
+        </a>
+        </div>
+      </header>
+    <!-- SERVICES: -->
+    <section  id=services class="w-full py-12 md:py-24 lg:py-32 bg-cover bg-center" style="background-image: url('./public/bgfeature.png');">
+        <div class="container mx-auto px-4 md:px-6 lg:px-8 flex flex-col items-center text-center">
+          <div class="space-y-4">
+            <h2 class="text-3xl font-bold tracking-tighter text-[#510cfa] sm:text-4xl md:text-5xl animate-fade-in">
+              Our Services
+            </h2>
+            <p class="max-w-[700px] text-lg text-[#510cfa] animate-fade-in delay-100">
+              Discover our comprehensive range of healthcare services designed to meet your unique needs.
+            </p>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 mt-8">
+            <a href="https://medpulse-ai.onrender.com/" class="bg-white rounded-lg p-6 shadow-lg transition-all hover:scale-105 animate-fade-in delay-200 block">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="h-8 w-8 text-[#1E40AF] animate-pulse"
+              >
+                <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path>
+                <path d="M3.22 12H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27"></path>
+              </svg>
+              <h3 class="text-xl font-bold text-black mt-4">A multilingual AI-powered health assistant</h3>
+              <p class="text-black mt-2">Utilizes LLM and ML to analyze medical reports, summarize key details, detect diseases, extract vital stats, and offer health suggestions, including diet and recovery tips. </p>
+            </a>
+            <a href="therpy.html" class="bg-white rounded-lg p-6 shadow-lg transition-all hover:scale-105 animate-fade-in delay-300 block">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="h-8 w-8 text-[#1E40AF] animate-pulse"
+              >
+                <path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"></path>
+                <path d="M8 15v1a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6v-4"></path>
+                <circle cx="20" cy="10" r="2"></circle>
+              </svg>
+              <h3 class="text-xl font-bold text-black mt-4">Centralized System</h3>
+              <p class="text-black mt-2"> A centralized system for secure patient record standardization and real-time medical supply tracking in emergencies.</p>
+            </a>
+            <a href="https://diabetesprediction-machinelearning.onrender.com/" class="bg-white rounded-lg p-6 shadow-lg transition-all hover:scale-105 animate-fade-in delay-500 block">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="h-8 w-8 text-[#1E40AF] animate-pulse"
+              >
+                <path d="M12 6v4"></path>
+                <path d="M14 14h-4"></path>
+                <path d="M14 18h-4"></path>
+                <path d="M14 8h-4"></path>
+                <path d="M18 12h2a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-9a2 2 0 0 1 2-2h2"></path>
+                <path d="M18 22V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v18"></path>
+              </svg>
+              <h3 class="text-xl font-bold text-black mt-4"> Smart Prescription Verification System</h3>
+              <p class="text-black mt-2">A system to prevent prescription errors by providing medicine hints and treatment details during billing for patient verification.</p>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <header class="w-full bg-gradient-to-r from-[#9333ea] to-[#ec4899] py-6 px-4 md:px-6">
+        <div class="container mx-auto flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="text-lg font-bold text-black">
+              To Watch Demo Video and Prototype of this Project CureSphere Link
+            </span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="h-5 w-5 text-black"
+            >
+              <path d="M5 12h14"></path>
+              <path d="m12 5 7 7-7 7"></path>
+            </svg>
+          </div>
+          <a href="https://www.youtube.com/watch?v=N6hml8o6WrU">
+          <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 bg-gradient-to-r from-[#9333ea] to-[#ec4899] text-black shadow-md hover:bg-gradient-to-r hover:from-[#9333ea]/90 hover:to-[#ec4899]/90">
+            Watch Demo Video
+          </button>
+        </a>
+        </div>
+      </header>
+<!-- FOOTER  -->
+      <!-- About Section -->
+  <section id="about" class="p-8 mt-0">
+    <div class="flex flex-col md:flex-row mt-8">
+      <div class="md:w-1/4">
+        <img class="rounded-lg image-animation" src="./public/pic1.png" alt="Service Image" />
+      </div>
+      <div class="md:w-3/4 md:pl-8">
+        <h2 class="text-3xl font-bold mb-4">About CureSphere</h2>
+        <div class="border-b border-gray-400 mb-4"></div>
+        <div class="flex flex-col md:flex-row">
+          <div class="md:w-1/3 mb-4 md:mb-0">
+            <div class="bg-[#510cfa] text-white rounded-full px-4 py-1 inline-block mb-2">What's CureSphere</div>
+            <p>CureSphere is an AI-powered health platform that analyzes medical reports, identifies diseases, and provides personalized health recommendations, including diet and recovery tips. </p>
+          </div>
+          <div class="md:w-1/3 mb-4 md:mb-0">
+            <div class="bg-[#510cfa] text-white rounded-full px-7 py-1 inline-block mb-2">Our Goals</div>
+            <ul class="list-disc list-inside px-5">
+              <li>Empower individuals with AI-driven health insights.</li>
+              <li>Standardize patient records for seamless healthcare access.</li>
+              <li>Improve emergency response through quick medicine and equipment location.</li>
+            </ul>
+          </div>
+          <div class="md:w-1/3">
+            <div class="bg-[#510cfa] text-white rounded-full px-4 py-1 inline-block mb-2">About Us</div>
+            <p>CureSphere is transforming healthcare with AI, offering solutions like a centralized data system, smart prescription verification, and emergency medicine locators to ensure better access and accuracy in medical care. </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="p-8">
+    <div class="mt-8">
+      <h2 class="text-3xl font-bold mb-4">Contact Us</h2>
+      <div class="border-b border-gray-400 mb-4"></div>
+      <div class="flex flex-col md:flex-row">
+        <div class="md:w-1/2 mb-4 md:mb-0">
+          <p class="font-bold text-[#510cfa]">Email Support:</p>
+          <p>CureSpheresupport@gmail.com</p>
+        </div>
+        <div class="md:w-1/2">
+          <p class="font-bold text-[#510cfa]">Phone:</p>
+          <p>+1-123-456-7890</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.7.13/lottie.min.js"></script>
+  <script src="script.js"></script>
+
+
+</body>
+</html>

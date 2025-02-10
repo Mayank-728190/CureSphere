@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Report</title>
+    <script>
+        function loadEmergencyData() {
+            let urlParams = new URLSearchParams(window.location.search);
+            let patientId = urlParams.get("patient");
+            let emergencyData = JSON.parse(localStorage.getItem(patientId + "-emergency"));
+
+            if (!emergencyData || (Date.now() - emergencyData.timestamp) > 6 * 60 * 60 * 1000) {
+                document.body.innerHTML = "<h2>🚨 Emergency Record Expired or Not Found!</h2>";
+                return;
+            }
+
+            document.getElementById("emergency-report").innerText = emergencyData.history;
+        }
+    </script>
+</head>
+<body onload="loadEmergencyData()">
+    <h2>Emergency Medical Report</h2>
+    <pre id="emergency-report"></pre>
+</body>
+</html>

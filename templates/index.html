@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CureSphere</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="./public/logo.png" type="image/x-icon">
+    <style>
+        #scroll-container {
+            display: flex;
+            overflow: hidden; 
+            white-space: nowrap; 
+        }
+
+        .animate-scroll {
+            animation: scroll 20s linear infinite;
+            display: inline-block; 
+            padding: 0 20px; 
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .animate-scroll {
+                animation-duration: 15s; 
+                padding: 0 15px; 
+            }
+        }
+
+        @media (max-width: 480px) {
+            .animate-scroll {
+                animation-duration: 10s; 
+                padding: 0 10px; 
+            }
+        }
+
+        @keyframes scaleUpDown {
+            0%, 100% {
+                transform: scale(0.85);
+            }
+            50% {
+                transform: scale(1);
+            }
+        }
+
+        .animate-image {
+            animation: scaleUpDown 5s infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- MAIN LANDING PAGE -->
+    <div class="flex flex-col min-h-[100dvh] animate-gradient-x" style="background-image: url('./public/bgwp2.png'); background-size: cover; background-position: center;">
+        <header class="px-4 lg:px-6 h-20 flex items-center shadow-md relative">
+            <a href="index.html">
+                <img src="./public/logo.png" alt="PredictMed Logo" class="h-10 w-10 rounded-full">
+            </a>
+            <a href="index.html">
+                <h1 class="text-2xl font-bold text-[#510cfa] ml-2">CureSphere</h1>
+            </a>
+            <nav class="ml-auto flex items-center relative">
+                <!-- Toggle Button for Mobile -->
+                <button id="menu-toggle" class="lg:hidden text-[#1E40AF] hover:text-[#3B82F6] focus:outline-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6">
+                        <path d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+        
+                <!-- Desktop Menu -->
+                <div class="hidden lg:flex gap-4 sm:gap-6 items-center relative">
+                    <a class="text-sm font-medium text-[#1E40AF] hover:underline underline-offset-4 hover:text-[#3B82F6] transition-colors" href="index.html">Home</a>
+                    <div class="relative">
+                        <button type="button" id="services-button" aria-haspopup="menu" aria-expanded="false" class="text-sm font-medium text-[#1E40AF] hover:underline underline-offset-4 hover:text-[#3B82F6] transition-colors flex items-center gap-2">
+                            <span>Services</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 text-[#1E40AF] transition-transform duration-300">
+                                <path d="m6 9 6 6 6-6"></path>
+                            </svg>
+                        </button>
+                        <div id="services-dropdown" class="absolute top-full left-0 mt-2 w-48 bg-[#510cfa] border border-[#e2e8f0] rounded-lg shadow-lg z-50 hidden">
+                            <a href="reportanalyse.html" class="block px-4 py-2 text-sm text-[#FDF0FF] hover:bg-[#ffb800]">Multilingual AI-powered health assistant</a>
+                            <a href="" class="block px-4 py-2 text-sm text-[#FDF0FF] hover:bg-[#ffb800]">Centralized Report System</a>
+                            <a href="medreport.html" class="block px-4 py-2 text-sm text-[#FDF0FF] hover:bg-[#ffb800]">Centralized Medical Store System</a>
+                            <a href="wrongmed.html" class="block px-4 py-2 text-sm text-[#FDF0FF] hover:bg-[#ffb800]">Smart Prescription Verification System </a>
+                        </div>
+                    </div>
+                    <a class="text-sm font-medium text-[#1E40AF] hover:underline underline-offset-4 hover:text-[#3B82F6] transition-colors" href="contact.html">Contact</a>
+                    <a class="inline-flex h-8 items-center justify-center rounded-full bg-[#ffb800] px-4 text-sm font-medium text-black shadow transition-colors hover:bg-[#ffb800] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50" href="https://CureSphere-2lyq.onrender.com/">Logout</a>
+                </div>
+        
+                <!-- Mobile Dropdown Menu -->
+                <div id="mobile-menu" class="lg:hidden absolute top-14 right-0 mt-2 w-48 bg-white border border-[#e2e8f0] rounded-lg shadow-lg hidden z-50">
+                    <a href="index.html" class="block px-4 py-2 text-sm text-[#1E40AF] hover:bg-[#BFDBFE]">Home</a>
+                    <button type="button" id="mobile-services-button" class="w-full text-left px-4 py-2 text-sm text-[#1E40AF] hover:bg-[#BFDBFE] flex items-center justify-between">
+                        Services
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 text-[#1E40AF] transition-transform duration-300">
+                            <path d="m6 9 6 6 6-6"></path>
+                        </svg>
+                    </button>
+                    <div id="mobile-services-dropdown" class="hidden mt-2 bg-[#510cfa] z-50">
+                        <a href="reportanalyse.html" class="block px-4 py-2 text-sm text-[#FDF0FF] hover:bg-[#ffb800]">Multilingual AI-powered health assistant</a>
+                        <a href="" class="block px-4 py-2 text-sm text-[#FDF0FF] hover:bg-[#ffb800]">Centralized Report System</a>
+                        <a href="medreport.html" class="block px-4 py-2 text-sm text-[#FDF0FF] hover:bg-[#ffb800]">Centralized Medical Store System</a>
+                        <a href="wrongmed.html" class="block px-4 py-2 text-sm text-[#FDF0FF] hover:bg-[#ffb800]">Smart Prescription Verification System </a>
+                    </div>
+                    <a href="contact.html" class="block px-4 py-2 text-sm text-[#1E40AF] hover:bg-[#BFDBFE]">Contact</a>
+                    <a href="https://CureSphere-2lyq.onrender.com/" class="block px-4 py-2 text-sm text-[#1E40AF] hover:bg-[#BFDBFE]">Logout</a>
+                </div>
+            </nav>
+        </header>
+
+        <!-- Upload Section -->
+        <div class="container mx-auto py-20 pt-24">
+            <div class="bg-white p-6 rounded-lg shadow-md w-full max-w-3xl mx-auto flex flex-col md:flex-row items-center md:items-stretch gap-6 min-h-[450px]">
+                <!-- Left Side: Image -->
+                <div class="w-full md:w-1/2 flex justify-center items-center p-4">
+                    <img src="https://algoscale.com/wp-content/uploads/2023/03/53911-online-medical-assistance-animation.gif" 
+                         alt="Medical Assistance Animation" class="w-full h-full animate-image">
+                </div>
+
+                <!-- Right Side: Upload Form -->
+                <div class="w-full md:w-1/2">
+                    <h2 class="text-3xl font-bold text-[#1E40AF] mb-6">Analyze Your Medical Report</h2>
+                    <form action="/analyze" method="POST" enctype="multipart/form-data" class="space-y-4">
+                        <div class="relative">
+                            <input type="file" id="file-upload" name="file" class="file-input file-input-bordered w-full bg-white border border-[#e2e8f0] rounded-md py-2 px-4 text-sm text-[#1E40AF] cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#ffb800]">
+                        </div>
+                        <div class="flex justify-center gap-2">
+                            <button type="submit" class="bg-[#ffb800] text-black font-semibold py-2 px-6 rounded-md hover:bg-[#fbbf24] transition-colors">Upload</button>
+                        </div>
+                        
+                    </form>
+                </div>
+            </div>
+            {% if analysis %}
+            <div class="flex justify-center mt-2">
+                <button id="analyze-button" class="px-6 py-3 bg-[#ffb800] text-black font-semibold rounded-lg shadow-md hover:bg-[#e6a300] focus:outline-none focus:ring-2 focus:ring-[#e6a300] w-full md:w-auto">
+                    Analyze
+                </button>
+                {{ analysis|safe }}
+            </div>
+            {% endif %}
+        </div>
+
+        <footer class="bg-[#510cfa] py-6 mt-auto">
+            <div class="text-center text-white">© 2025 CureSphere. All Rights Reserved.</div>
+        </footer>
+    </div>
+
+    <script>
+        document.getElementById("menu-toggle").addEventListener("click", function() {
+            const mobileMenu = document.getElementById("mobile-menu");
+            mobileMenu.classList.toggle("hidden");
+        });
+    </script>
+</body>
+</html>

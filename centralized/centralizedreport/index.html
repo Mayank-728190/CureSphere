@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen bg-cover bg-center" style="background-image: url('hospital-report-bg.jpg');">
+    
+    <!-- Doctor Login -->
+    <div class="bg-white p-6 rounded-lg shadow-lg w-96" id="doctor-login">
+        <h2 class="text-2xl font-bold mb-4 text-center">Doctor Login</h2>
+        <input type="text" id="doctor-id" placeholder="Doctor ID (D0001 - D0100)" class="w-full p-2 border border-gray-300 rounded mb-2">
+        <input type="password" id="doctor-password" placeholder="Password" class="w-full p-2 border border-gray-300 rounded mb-2">
+        <button onclick="validateDoctorLogin()" class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Login</button>
+    </div>
+
+    <!-- Doctor Dashboard -->
+    <div id="doctor-dashboard" class="hidden bg-white p-6 rounded-lg shadow-lg w-96">
+        <h2 class="text-2xl font-bold mb-4 text-center">Doctor Dashboard</h2>
+        <input type="text" id="patient-id-search" placeholder="Enter Patient ID" class="w-full p-2 border border-gray-300 rounded mb-2">
+        <button onclick="viewPatientDetails()" class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">View Patient</button>
+        <button onclick="logout()" class="w-full bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mt-2">Logout</button>
+    </div>
+
+    <!-- Patient Details -->
+    <div id="patient-details" class="hidden bg-white p-6 rounded-lg shadow-lg w-96">
+        <h2 class="text-2xl font-bold mb-4 text-center">Patient Details</h2>
+        <div id="patient-info" class="text-center"></div>
+        <textarea id="medical-history-input" class="w-full p-2 border border-gray-300 rounded mt-2" placeholder="Add Medical Notes"></textarea>
+        <button onclick="addMedicalHistory()" class="w-full bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-2">Add</button>
+        <button onclick="emergencyTransfer()" class="w-full bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-2">Emergency</button>
+        <button onclick="goBackToDashboard()" class="w-full bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mt-4">Back</button>
+    </div>
+
+    <script>
+        let patientRecords = {};
+        let loggedInDoctor = "";
+
+        // Fetch patient records from CSV
+        fetch('final_patient_records.csv')
+            .then(response => response.text())
+            .then(data => {
+                let rows = data.trim().split('\n').slice(1);
+                rows.forEach(row => {
+                    let cols = row.split(',');
+                    let id = cols[0].trim();
+                    patientRecords[id] = {
+                        name: cols[1],
+                        photo: cols[2],
+                        age: cols[3],
+                        sex: cols[4],
+                        dob: cols[5],
+                        bloodGroup: cols[6],
+                        emergencyContact: cols[7],
+                        surgery: cols[8],
+                        affectedBodyPart: cols[9],
+                        outcome: cols[10],
+                        chronicDiseases: cols[11],
+                        history: ""
+                    };
+                });
+            })
+            .catch(error => console.error("Error loading patient records:", error));
+
+        function validateDoctorLogin() {
+            let doctorId = document.getElementById('doctor-id').value.trim();
+            let password = document.getElementById('doctor-password').value.trim();
+            let expectedPassword = doctorId.substring(1).padStart(4, '0');
+
+            if (/^D00[0-9]{2}$/.test(doctorId) && password === expectedPassword) {
+                loggedInDoctor = doctorId;
+                document.getElementById('doctor-login').classList.add('hidden');
+                document.getElementById('doctor-dashboard').classList.remove('hidden');
+            } else {
+                alert("Invalid Doctor ID or Password");
+            }
+        }
+
+        function viewPatientDetails() {
+            let patientId = document.getElementById('patient-id-search').value.trim();
+            let patient = patientRecords[patientId];
+
+            if (patient) {
+                document.getElementById('doctor-dashboard').classList.add('hidden');
+                document.getElementById('patient-details').classList.remove('hidden');
+                let storedHistory = localStorage.getItem(patientId) || "";
+                document.getElementById('patient-info').innerHTML = `
+                    <img src="${patient.photo}" alt="Patient Photo" class="w-32 h-32 rounded-full mx-auto mb-4">
+                    <p><strong>Name:</strong> ${patient.name}</p>
+                    <p><strong>Medical History:</strong> ${storedHistory}</p>
+                `;
+            } else {
+                alert("Patient not found!");
+            }
+        }
+
+        function addMedicalHistory() {
+            let patientId = document.getElementById('patient-id-search').value.trim();
+            let newEntry = document.getElementById('medical-history-input').value.trim();
+            if (!newEntry) return;
+            let date = new Date().toLocaleDateString();
+            let fullEntry = `(${date} by ${loggedInDoctor}): ${newEntry}\n`;
+            localStorage.setItem(patientId, (localStorage.getItem(patientId) || "") + fullEntry);
+            viewPatientDetails();
+        }
+
+        function emergencyTransfer() {
+            let patientId = document.getElementById('patient-id-search').value.trim();
+            let storedHistory = localStorage.getItem(patientId) || "";
+            if (!storedHistory) {
+                alert("No medical records found for transfer.");
+                return;
+            }
+            let emergencyData = {history: storedHistory, timestamp: Date.now()};
+            localStorage.setItem(patientId + "-emergency", JSON.stringify(emergencyData));
+
+            let emergencyLink = `emergency.html?patient=${patientId}`;
+            window.open(emergencyLink, "_blank");
+        }
+
+        function logout() {
+            document.getElementById('doctor-dashboard').classList.add('hidden');
+            document.getElementById('doctor-login').classList.remove('hidden');
+        }
+
+        function goBackToDashboard() {
+            document.getElementById('patient-details').classList.add('hidden');
+            document.getElementById('doctor-dashboard').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
